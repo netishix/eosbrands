@@ -33,6 +33,7 @@ export class AppService {
             this.login();
           }
         });
+      this.refreshGame();
       setInterval(() => {
         this.refreshGame();
       }, 4000);
