@@ -1,3 +1,5 @@
+import { NgtUniversalModule } from '@ng-toolkit/universal';
+import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -26,8 +28,11 @@ import { BrandCardComponent } from './components/brand-card/brand-card.component
     ModalLeaderboardComponent,
     BrandCardComponent
   ],
-  imports: [
-    BrowserModule,
+  imports:[
+ CommonModule,
+NgtUniversalModule,
+ 
+    
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -42,6 +47,5 @@ import { BrandCardComponent } from './components/brand-card/brand-card.component
     ModalWtfComponent,
     ModalLeaderboardComponent
   ],
-  bootstrap: [AppComponent]
 })
 export class AppModule { }

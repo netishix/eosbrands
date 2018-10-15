@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, } from '@angular/core';
 import ScatterJS from 'scatterjs-core';
 import ScatterEOS from 'scatterjs-plugin-eosjs';
 import Eos from 'eosjs';
@@ -24,22 +24,25 @@ export class AppService {
   };
 
   constructor() {
-    ScatterJS.plugins(new ScatterEOS());
-    ScatterJS.scatter.connect('EOS Brands')
-      .then(connected => {
-        this.scatter = ScatterJS.scatter;
-        if (this.scatter.identity) {
-          this.login();
-        }
-      });
-    setInterval(() => {
-      this.refreshGame();
-    }, 2000);
+    if (typeof window !== 'undefined') {
+      ScatterJS.plugins(new ScatterEOS());
+      ScatterJS.scatter.connect('EOS Brands')
+        .then(connected => {
+          this.scatter = ScatterJS.scatter;
+          if (this.scatter.identity) {
+            this.login();
+          }
+        });
+      setInterval(() => {
+        this.refreshGame();
+      }, 2000);
+    }
     this.gameData = {
       game: null,
       brands: [],
       balance: null
     };
+
   }
 
   login() {
@@ -96,7 +99,7 @@ export class AppService {
         return b.purchasedTimes - a.purchasedTimes;
       });
       if (this.loggedUser) {
-        const foundLoggedUser =  response[2].rows.find(user => user.account === this.loggedUser.name);
+        const foundLoggedUser = response[2].rows.find(user => user.account === this.loggedUser.name);
         this.gameData.balance = foundLoggedUser ? foundLoggedUser.balance : 0;
       } else {
         this.gameData.balance = 0;

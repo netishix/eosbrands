@@ -8,7 +8,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ModalWtfComponent implements OnInit {
 
-  constructor() { }
+  constructor(public _NgbActiveModal: NgbActiveModal) { }
 
   ngOnInit() {
   }

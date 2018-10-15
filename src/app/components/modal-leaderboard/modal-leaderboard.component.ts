@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../services/app.service';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-modal-leaderboard',
   templateUrl: './modal-leaderboard.component.html',
@@ -12,7 +13,7 @@ export class ModalLeaderboardComponent implements OnInit {
     totalValue: string
   }[];
 
-  constructor(public _AppService: AppService) { }
+  constructor(public _AppService: AppService, public _NgbActiveModal: NgbActiveModal) { }
 
   ngOnInit() {
     this.ranking = [];
