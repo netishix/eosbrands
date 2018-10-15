@@ -35,7 +35,7 @@ export class AppService {
         });
       setInterval(() => {
         this.refreshGame();
-      }, 2000);
+      }, 4000);
     }
     this.gameData = {
       game: null,
