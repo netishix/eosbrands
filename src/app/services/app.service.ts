@@ -21,6 +21,7 @@ export class AppService {
     },
     brands: Brand[],
     balance: any,
+    accounts: any[];
   };
 
   constructor() {
@@ -41,7 +42,8 @@ export class AppService {
     this.gameData = {
       game: null,
       brands: [],
-      balance: null
+      balance: null,
+      accounts: []
     };
 
   }
@@ -99,8 +101,10 @@ export class AppService {
       this.gameData.brands = response[1].rows.sort((a, b) => {
         return b.purchasedTimes - a.purchasedTimes;
       });
+      const accounts = response[2].rows;
+      this.gameData.accounts = accounts;
       if (this.loggedUser) {
-        const foundLoggedUser = response[2].rows.find(user => user.account === this.loggedUser.name);
+        const foundLoggedUser = accounts.find(user => user.account === this.loggedUser.name);
         this.gameData.balance = foundLoggedUser ? foundLoggedUser.balance : 0;
       } else {
         this.gameData.balance = 0;

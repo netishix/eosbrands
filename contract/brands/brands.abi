@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Oct 15 08:52:41 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Mon Oct 15 13:04:03 2018",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -80,10 +80,6 @@
                 },
                 {
                     "name": "pot",
-                    "type": "asset"
-                },
-                {
-                    "name": "contract",
                     "type": "asset"
                 },
                 {

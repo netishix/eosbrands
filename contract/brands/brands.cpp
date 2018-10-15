@@ -11,16 +11,16 @@ class brands : public contract
 public:
   const uint64_t expirationPeriod = 43200; // 12 hours
   const float inflationFactor = 0.4;
+  const account_name devAccount = N(estrectopolo);
   struct [[eosio::table]] Game
   {
     uint64_t id;
     uint64_t expiresAt;
     account_name lastBuyer;
     asset pot;
-    asset contract;
     asset invested;
     uint64_t primary_key() const { return id; }
-    EOSLIB_SERIALIZE(Game, (id)(expiresAt)(lastBuyer)(pot)(contract)(invested));
+    EOSLIB_SERIALIZE(Game, (id)(expiresAt)(lastBuyer)(pot)(invested));
   };
   typedef multi_index<N(game), Game> gameIndex;
 
@@ -59,7 +59,7 @@ public:
     brandIndex brands(_self, _self);
     brands.emplace(_self, [&](auto &brand) {
       brand.id = brands.available_primary_key();
-      brand.price = asset(initialPrice.amount + initialPrice.amount * inflationFactor,S(4, EOS));
+      brand.price = asset(initialPrice.amount + initialPrice.amount * inflationFactor, S(4, EOS));
       brand.creator = creator;
       brand.owner = creator;
       brand.createdAt = now();
@@ -74,13 +74,13 @@ public:
     auto gameItr = games.find(0);
     eosio_assert(gameItr != games.end(), "Game has not started");
     games.modify(gameItr, _self, [&](auto &game) {
-      game.contract += initialPrice;
       game.invested += initialPrice;
       game.expiresAt = now() + expirationPeriod;
     });
+    deposit(devAccount, initialPrice);
   }
 
-  [[eosio::action]] void buy(uint64_t id, account_name buyer)
+      [[eosio::action]] void buy(uint64_t id, account_name buyer)
   {
     eosio_assert(!hasGameExpired(), "Game is over");
     require_auth(buyer);
@@ -97,18 +97,19 @@ public:
     uint64_t inflation = brand.price.amount * inflationFactor;
     // deposit to owner old price + profit
     deposit(brand.owner, asset((brand.price.amount - inflation) + (inflation * 0.7), S(4, EOS)));
-    // update pot, contract , invested, expiration time, and last buyer
+    // update pot, invested, expiration time, and last buyer
     uint64_t gameProfit = inflation * 0.3;
     gameIndex games(_self, _self);
     auto gameItr = games.find(0);
     eosio_assert(gameItr != games.end(), "Game has not started");
     games.modify(gameItr, _self, [&](auto &game) {
       game.pot.amount += gameProfit * 0.4;
-      game.contract.amount += gameProfit * 0.27;
       game.invested += brand.price;
       game.expiresAt = now() + expirationPeriod;
       game.lastBuyer = buyer;
     });
+    // deposit profit to dev
+    deposit(devAccount, asset(gameProfit * 0.27, S(4, EOS)));
     // deposit profit to creator
     deposit(brand.creator, asset(gameProfit * 0.33, S(4, EOS)));
     //update brand information
@@ -134,20 +135,22 @@ public:
         .send();
   }
 
-  [[eosio::action]] void startgame()
+      [[eosio::action]] void startgame()
   {
     require_auth(_self);
     //delete all accounts
     accountIndex accounts(_self, _self);
     auto accountItr = accounts.begin();
-    while (accountItr != accounts.end()) {
-        accountItr = accounts.erase(accountItr);
+    while (accountItr != accounts.end())
+    {
+      accountItr = accounts.erase(accountItr);
     }
     //delete all brands
     brandIndex brands(_self, _self);
     auto brandItr = brands.begin();
-    while (brandItr != brands.end()) {
-        brandItr = brands.erase(brandItr);
+    while (brandItr != brands.end())
+    {
+      brandItr = brands.erase(brandItr);
     }
 
     // initialize game table
@@ -155,23 +158,14 @@ public:
     auto gameItr = games.find(0);
     if (gameItr != games.end())
     {
-      games.modify(gameItr, _self, [&](auto &game) {
-        game.expiresAt = now() + expirationPeriod;
-        game.pot = asset(0, S(4, EOS));
-        game.contract = asset(0, S(4, EOS));
-        game.invested = asset(0, S(4, EOS));
-      });
+      games.erase(gameItr);
     }
-    else
-    {
-      games.emplace(_self, [&](auto &game) {
-        game.id = 0;
-        game.expiresAt = now() + expirationPeriod;
-        game.pot = asset(0, S(4, EOS));
-        game.contract = asset(0, S(4, EOS));
-        game.invested = asset(0, S(4, EOS));
-      });
-    }
+    games.emplace(_self, [&](auto &game) {
+      game.id = 0;
+      game.expiresAt = now() + expirationPeriod;
+      game.pot = asset(0, S(4, EOS));
+      game.invested = asset(0, S(4, EOS));
+    });
   }
 
   /*####################################################
@@ -184,7 +178,7 @@ public:
     auto gameItr = games.find(0);
     eosio_assert(gameItr != games.end(), "Could not check game expiration time. Game has not started");
     auto game = games.get(0);
-    return  now() > game.expiresAt;
+    return now() > game.expiresAt;
   }
 
   void onTransfer(account_name from, account_name to, eosio::asset quantity, std::string memo)
