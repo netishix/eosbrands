@@ -1,0 +1,75 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12 px-0">
+      <div class="card">
+        <div class="card-body">
+          <div *ngIf="_AppService.gameData.game" class="row d-flex justify-content-center">
+            <div class="mr-4">
+              <span class="font-weight-bold">Invested:</span>&nbsp;{{_AppService.gameData.game.invested}}
+            </div>
+            <div class="mr-4">
+              <span class="font-weight-bold">POT:</span>&nbsp;{{_AppService.gameData.game.pot}}
+            </div>
+            <div class="mr-4">
+              <span class="font-weight-bold">Last purchase:</span>&nbsp;{{_AppService.gameData.game.lastBuyer}}
+            </div>
+          </div>
+          <hr>
+          <div class="row d-flex justify-content-center">
+            <div class="col-sm-4 col-lg-2">
+              <button class="btn btn-block btn-primary" (click)="openLeaderboard()">
+                <i class="fas fa-trophy mr-2"></i>Leaderboard
+              </button>
+            </div>
+            <div class="col-sm-4 col-lg-2">
+              <button class="btn btn-block btn-success" (click)="createBrand()">
+                <i class="fas fa-plus mr-2"></i>Create brand
+              </button>
+            </div>
+            <div *ngIf="_AppService.loggedUser" class="col-sm-4 col-lg-3">
+              <div class="input-group">
+                <input type="text" class="form-control text-center" value="{{_AppService.gameData.balance}}" readonly>
+                <div class="input-group-append">
+                  <button class="btn btn-primary" (click)="withdraw()">
+                    Withdraw
+                    <i class="fas fa-chevron-right ml-2"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row bg-white text-center mb-4">
+    <button class="col-4 btn p-3" (click)="tab = 'all'" [ngClass]="[tab === 'all'?'btn-primary':'btn-light']">
+      All ({{allFilter().length}})
+    </button>
+    <button class="col-4 btn p-3" (click)="tab = 'owned'" [ngClass]="[tab === 'owned'?'btn-primary':'btn-light']">
+      Owned ({{_AppService.loggedUser ? ownedFilter().length : 0}})
+    </button>
+    <button class="col-4 btn p-3" (click)="tab = 'created'" [ngClass]="[tab === 'created'?'btn-primary':'btn-light']">
+      Created ({{_AppService.loggedUser ? createdFilter().length : 0}})
+    </button>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="row" *ngIf="tab === 'all'">
+        <div *ngFor="let brand of allFilter()" class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
+          <app-brand-card (buy)="onBuyBrand($event)" [brand]="brand"></app-brand-card>
+        </div>
+      </div>
+      <div class="row" *ngIf="tab === 'owned' && _AppService.loggedUser">
+        <div *ngFor="let brand of ownedFilter()" class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
+          <app-brand-card (buy)="onBuyBrand($event)" [brand]="brand"></app-brand-card>
+        </div>
+      </div>
+      <div class="row" *ngIf="tab === 'created' && _AppService.loggedUser">
+        <div *ngFor="let brand of createdFilter()" class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
+          <app-brand-card (buy)="onBuyBrand($event)" [brand]="brand"></app-brand-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

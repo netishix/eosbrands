@@ -1,0 +1,30 @@
+<div class="modal-header border-0">
+  <h4 class="modal-title text-center">Leaderboard</h4>
+  <button type="button" class="close" aria-label="Close" (click)="_NgbActiveModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Account</th>
+            <th scope="col">Owned</th>
+            <th scope="col">Total value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let position of ranking; let i = index" [ngClass]="{'bg-winner-1': i + 1 === 1, 'bg-winner-10': (i + 1) > 1 && (i + 1) <= 10}">
+            <th scope="row">{{i+1}}</th>
+            <td>{{position.account}}</td>
+            <td>{{position.owned}}</td>
+            <td>{{position.totalValue}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

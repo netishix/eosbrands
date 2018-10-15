@@ -1,0 +1,53 @@
+<div class="modal-header">
+  <h4 class="modal-title">Create brand</h4>
+  <button type="button" class="close" aria-label="Close" (click)="_NgbActiveModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="row">
+    <form [formGroup]="brandForm.formGroup" (submit)="brandForm.submit()" class="col-12">
+      <div class="row form-group">
+        <label class="col-12 col-lg-3 col-form-label text-lg-right font-weight-bold">Name:</label>
+        <input class="col-12 col-lg-6 form-control" formControlName="name" placeholder="The brand name">
+        <div class="offset-3 pl-0 col-lg-9">
+          <div *ngIf="!brandForm.formGroup.controls.name.valid && (this.brandForm.formGroup.controls.name.touched || this.brandForm.isSubmitted)"
+            class="small text-danger">Please, choose a name with up to 30 characters</div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-12 col-lg-9">
+          <div class="row">
+            <label class="col-12 col-lg-4 col-form-label text-lg-right font-weight-bold">Image:</label>
+            <input class="col-6 col-lg-8 form-control" formControlName="image" placeholder="(eg: wwww.example.com/myimage.jpg)">
+          </div>
+          <div class="row">
+            <div class="offset-4 pl-0 col-lg-8">
+              <div *ngIf="brandForm.formGroup.controls.image.errors && (brandForm.formGroup.controls.image.errors.maxlength || brandForm.formGroup.controls.image.errors.required) && (this.brandForm.formGroup.controls.image.touched || this.brandForm.isSubmitted)"
+                class="small text-danger">Please, use an url with up to 300 characters</div>
+              <div *ngIf="brandForm.formGroup.controls.image.errors && brandForm.formGroup.controls.image.errors.notFound && (this.brandForm.formGroup.controls.image.touched || this.brandForm.isSubmitted)"
+                class="small text-danger">The image could not be found. Please check the url
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-12 text-center">
+          <p *ngIf="!brandForm.formGroup.value.image">Image Preview...</p>
+          <img *ngIf="brandForm.formGroup.value.image" class="img-fluid" [src]="brandForm.formGroup.value.image">
+        </div>
+      </div>
+      <div class="row form-group justify-content-center">
+        <div class="col-12 col-lg-10 text-center">
+          <div class="d-flex justify-content-between">
+            <button class="btn btn-secondary" (click)="_NgbActiveModal.dismiss('canceled')">Cancel</button>
+            <button id="payment-method" class="btn btn-success">
+              Create
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

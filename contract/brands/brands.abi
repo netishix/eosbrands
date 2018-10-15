@@ -1,0 +1,191 @@
+{
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Sun Oct 14 23:33:20 2018",
+    "version": "eosio::abi/1.0",
+    "structs": [
+        {
+            "name": "Account",
+            "base": "",
+            "fields": [
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "balance",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "Brand",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "image",
+                    "type": "string"
+                },
+                {
+                    "name": "price",
+                    "type": "asset"
+                },
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "owner",
+                    "type": "name"
+                },
+                {
+                    "name": "createdAt",
+                    "type": "uint64"
+                },
+                {
+                    "name": "purchasedAt",
+                    "type": "uint64"
+                },
+                {
+                    "name": "expiresAt",
+                    "type": "uint64"
+                },
+                {
+                    "name": "purchasedTimes",
+                    "type": "uint64"
+                }
+            ]
+        },
+        {
+            "name": "Game",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "expiresAt",
+                    "type": "uint64"
+                },
+                {
+                    "name": "lastBuyer",
+                    "type": "name"
+                },
+                {
+                    "name": "pot",
+                    "type": "asset"
+                },
+                {
+                    "name": "contract",
+                    "type": "asset"
+                },
+                {
+                    "name": "invested",
+                    "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "buy",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "buyer",
+                    "type": "name"
+                }
+            ]
+        },
+        {
+            "name": "create",
+            "base": "",
+            "fields": [
+                {
+                    "name": "creator",
+                    "type": "name"
+                },
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "image",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "startgame",
+            "base": "",
+            "fields": []
+        },
+        {
+            "name": "withdraw",
+            "base": "",
+            "fields": [
+                {
+                    "name": "to",
+                    "type": "name"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "buy",
+            "type": "buy",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "create",
+            "type": "create",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "startgame",
+            "type": "startgame",
+            "ricardian_contract": ""
+        },
+        {
+            "name": "withdraw",
+            "type": "withdraw",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "account",
+            "type": "Account",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "brand",
+            "type": "Brand",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "game",
+            "type": "Game",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "abi_extensions": []
+}

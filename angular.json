@@ -27,9 +27,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles/app.scss",
+              "node_modules/@fortawesome/fontawesome-free/css/all.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/@fortawesome/fontawesome-free/js/all.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -60,7 +63,7 @@
             "production": {
               "browserTarget": "eosbutton:build:production"
             }
-          }
+          },
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

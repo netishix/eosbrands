@@ -1,16 +1,47 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CountdownModule } from 'ngx-countdown';
+
 
 import { AppComponent } from './app.component';
+import { HeaderComponent } from './components/header/header.component';
+import { GameComponent } from './components/game/game.component';
+import { ModalCreateBrandComponent } from './components/modal-create-brand/modal-create-brand.component';
+import { ModalWtfComponent } from './components/modal-wtf/modal-wtf.component';
+import { AppService } from './services/app.service';
+import { ModalLeaderboardComponent } from './components/modal-leaderboard/modal-leaderboard.component';
+import { BrandCardComponent } from './components/brand-card/brand-card.component';
+
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeaderComponent,
+    GameComponent,
+    ModalCreateBrandComponent,
+    ModalWtfComponent,
+    ModalLeaderboardComponent,
+    BrandCardComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    NgbModule.forRoot(),
+    CountdownModule,
   ],
-  providers: [],
+  providers: [
+    AppService
+  ],
+  entryComponents: [
+    ModalCreateBrandComponent,
+    ModalWtfComponent,
+    ModalLeaderboardComponent
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
