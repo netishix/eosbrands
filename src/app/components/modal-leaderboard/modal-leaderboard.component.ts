@@ -10,7 +10,7 @@ export class ModalLeaderboardComponent implements OnInit {
   public ranking: {
     account: string,
     owned: number,
-    totalValue: string
+    totalValue: number
   }[];
 
   constructor(public _AppService: AppService, public _NgbActiveModal: NgbActiveModal) { }
@@ -30,12 +30,12 @@ export class ModalLeaderboardComponent implements OnInit {
         this.ranking.push({
           account: user,
           owned: ownedBrands.length,
-          totalValue: totalValue.toFixed(4) + ' EOS'
+          totalValue: totalValue
         });
       }
     });
     this.ranking = this.ranking.sort(( a, b ) => {
-      return b.owned - a.owned;
+      return b.totalValue - a.totalValue;
     });
   }
 
