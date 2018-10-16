@@ -54,7 +54,7 @@ public:
     eosio_assert(!hasGameExpired(), "Game is over");
     require_auth(creator);
     eosio_assert((name.length() <= 30 && image.length() <= 300), "Brand name or image are to big.");
-    asset initialPrice = asset(5000, S(4, EOS)); //0.5 EOS
+    asset initialPrice = asset(1000, S(4, EOS)); //0.1 EOS
     debit(creator, initialPrice);
     brandIndex brands(_self, _self);
     brands.emplace(_self, [&](auto &brand) {
