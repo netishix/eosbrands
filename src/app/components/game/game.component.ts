@@ -5,6 +5,8 @@ import { Constants } from '../../constants';
 import Eos from 'eosjs';
 import { ModalCreateBrandComponent } from '../modal-create-brand/modal-create-brand.component';
 import { ModalLeaderboardComponent } from '../modal-leaderboard/modal-leaderboard.component';
+import { ModalLastBuyersComponent } from '../modal-last-buyers/modal-last-buyers.component';
+
 
 @Component({
   selector: 'app-game',
@@ -22,6 +24,12 @@ export class GameComponent implements OnInit {
 
   public openLeaderboard() {
     this._NgbModal.open(ModalLeaderboardComponent, {
+      size: 'lg'
+    });
+  }
+
+  public openLastBuyers() {
+    this._NgbModal.open(ModalLastBuyersComponent, {
       size: 'lg'
     });
   }
@@ -47,7 +55,7 @@ export class GameComponent implements OnInit {
                 data: {
                   from: this._AppService.loggedUser.name,
                   to: Constants.network.code,
-                  quantity: '0.1000 EOS',
+                  quantity: '0.5000 EOS',
                   memo: 'EOS BRANDS - Create brand'
                 }
               },
@@ -144,11 +152,6 @@ export class GameComponent implements OnInit {
     }).catch(() => {
       alert('An error occured while withdrawing. Please try again');
     });
-  }
-
-  public allFilter() {
-    const brands = this._AppService.gameData.brands.filter(brand => (brand.expiresAt - (Date.now() / 1000)) > 0);
-    return brands;
   }
 
   public ownedFilter() {

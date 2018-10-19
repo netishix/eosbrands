@@ -10,12 +10,9 @@ export class BrandCardComponent implements OnInit {
 
   @Input() brand: Brand;
   @Output() buy: EventEmitter<Brand> = new EventEmitter<Brand>();
-  public secondsLeft: number;
   constructor() { }
 
-  ngOnInit() {
-    this.secondsLeft = this.brand.expiresAt - Date.now() / 1000;
-  }
+  ngOnInit() {}
 
   public buyBrand(brand) {
     this.buy.emit(brand);

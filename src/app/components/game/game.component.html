@@ -19,11 +19,69 @@
           </div>
           <hr>
           <div class="row d-flex justify-content-center">
+            <div class="col-12">
+              <div class="alert alert-info">
+                Hello everyone and thanks for trusting this game. We have noticed that the brand timer was a bad idea and is killing the
+                game. We are announcing new rules to reactivate the game and motivate everyone who participates.
+                <ol>
+                  <li>
+                    Brand timers will be removed and all expired brands will be restored.
+                  </li>
+                  <li>
+                    Dividends will be applied to the last 10 buyers. This means that if you buy a brand, you will get dividends for the next 10 purchases. Please check the new rules:
+                  </li>
+                </ol>
+                <ul>
+                  <li>
+                    The price for creating a new brand is
+                    <span class="font-weight-bold">0.5 EOS</span>
+                  </li>
+                  <li>
+                    The next price is the
+                    <span class="font-weight-bold">previous price * 1.40%</span>
+                  </li>
+                  <li>
+                    The 40% inflation ratio splits as follows:
+                    <ul>
+                      <li>
+                        60% goes to the owner as profit
+                      </li>
+                      <li>
+                        40% splits as follows
+                        <ul>
+                          <li>
+                            40% goes to the total POT
+                          </li>
+                          <li>
+                            30% goes to dividends between the last 10 buyers
+                          </li>
+                          <li>
+                            20% goes to the contract
+                          </li>
+                          <li>
+                            10% goes to the creator of the brand
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                <p>
+                  The game ends when the game timer reaches 0. The POT will be splitted proportionally between the 5 players who own the greatest
+                  capital in brands.
+                </p>
+              </div>
+            </div>
             <div class="col-sm-4 col-lg-2">
               <button class="btn btn-block btn-primary" (click)="openLeaderboard()">
                 <i class="fas fa-trophy mr-2"></i>Leaderboard
               </button>
             </div>
+            <div class="col-sm-4 col-lg-2">
+                <button class="btn btn-block btn-warning" (click)="openLastBuyers()">
+                  <i class="fas fa-dollar-sign mr-2"></i>Active Dividends
+                </button>
+              </div>
             <div class="col-sm-4 col-lg-2">
               <button class="btn btn-block btn-success" (click)="createBrand()">
                 <i class="fas fa-plus mr-2"></i>Create brand
@@ -47,7 +105,7 @@
   </div>
   <div class="row bg-white text-center mb-4">
     <button class="col-4 btn p-3" (click)="tab = 'all'" [ngClass]="[tab === 'all'?'btn-primary':'btn-light']">
-      All ({{allFilter().length}})
+      All ({{_AppService.gameData.brands.length}})
     </button>
     <button class="col-4 btn p-3" (click)="tab = 'owned'" [ngClass]="[tab === 'owned'?'btn-primary':'btn-light']">
       Owned ({{_AppService.loggedUser ? ownedFilter().length : 0}})
@@ -59,7 +117,7 @@
   <div class="row">
     <div class="col-12">
       <div class="row" *ngIf="tab === 'all'">
-        <div *ngFor="let brand of allFilter()" class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
+        <div *ngFor="let brand of _AppService.gameData.brands" class="col-6 col-sm-4 col-md-3 col-lg-2 mb-3">
           <app-brand-card (buy)="onBuyBrand($event)" [brand]="brand"></app-brand-card>
         </div>
       </div>

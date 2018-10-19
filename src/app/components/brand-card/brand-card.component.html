@@ -4,15 +4,6 @@
   </p>
   <img class="card-img-top border-bottom border-top brand-image" [src]="brand.image">
   <div class="card-body">
-    <p class="text-truncate font-weight-bold mb-1">
-      <span *ngIf="secondsLeft > 0">
-        Left: 
-        <countdown [config]="{leftTime: secondsLeft}" class="text-danger">$!h!:$!m!:$!s!</countdown>
-      </span>
-      <span class="text-success" *ngIf="secondsLeft < 0">
-        Adquired!
-      </span>
-    </p>
     <p class="text-truncate font-weight-bold text-success mb-1">
       <i class="fas fa-dollar-sign mr-2"></i>{{brand.price}}
     </p>
@@ -23,6 +14,6 @@
         Created by {{brand.creator}}
       </p>
     <hr>
-    <button *ngIf="secondsLeft > 0" class="btn btn-primary btn-sm btn-block text-truncate" (click)="buyBrand(brand)">Buy {{brand.name}}</button>
+    <button class="btn btn-primary btn-sm btn-block text-truncate" (click)="buyBrand(brand)">Buy {{brand.name}}</button>
   </div>
 </div>

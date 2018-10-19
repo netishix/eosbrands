@@ -17,11 +17,12 @@ export class AppService {
       secondsLeft: number,
       invested: string,
       pot: string,
-      lastBuyer: string
+      lastBuyer: string,
     },
     brands: Brand[],
     balance: any,
     accounts: any[];
+    lastBuyers: any[];
   };
 
   constructor() {
@@ -43,7 +44,8 @@ export class AppService {
       game: null,
       brands: [],
       balance: null,
-      accounts: []
+      accounts: [],
+      lastBuyers: []
     };
 
   }
@@ -89,6 +91,13 @@ export class AppService {
         table: 'account',
         json: true,
         limit: 0
+      }),
+      eos.getTableRows({
+        code: Constants.network.code,
+        scope: Constants.network.code,
+        table: 'lastbuyer',
+        json: true,
+        limit: 0
       })
     ]).then((response) => {
       const gameTable = response[0].rows[0];
@@ -109,6 +118,9 @@ export class AppService {
       } else {
         this.gameData.balance = 0;
       }
+      this.gameData.lastBuyers = response[3].rows.sort((a, b) => {
+        return b.purchasedAt - a.purchasedAt;
+      });
     });
   }
 }

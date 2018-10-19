@@ -15,6 +15,7 @@ import { ModalCreateBrandComponent } from './components/modal-create-brand/modal
 import { ModalWtfComponent } from './components/modal-wtf/modal-wtf.component';
 import { AppService } from './services/app.service';
 import { ModalLeaderboardComponent } from './components/modal-leaderboard/modal-leaderboard.component';
+import { ModalLastBuyersComponent } from './components/modal-last-buyers/modal-last-buyers.component';
 import { BrandCardComponent } from './components/brand-card/brand-card.component';
 
 
@@ -26,13 +27,12 @@ import { BrandCardComponent } from './components/brand-card/brand-card.component
     ModalCreateBrandComponent,
     ModalWtfComponent,
     ModalLeaderboardComponent,
-    BrandCardComponent
+    BrandCardComponent,
+    ModalLastBuyersComponent
   ],
   imports:[
  CommonModule,
 NgtUniversalModule,
- 
-    
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -45,7 +45,8 @@ NgtUniversalModule,
   entryComponents: [
     ModalCreateBrandComponent,
     ModalWtfComponent,
-    ModalLeaderboardComponent
+    ModalLeaderboardComponent,
+    ModalLastBuyersComponent
   ],
 })
 export class AppModule { }

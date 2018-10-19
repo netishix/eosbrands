@@ -1,5 +1,5 @@
 {
-    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Tue Oct 16 08:21:54 2018",
+    "____comment": "This file was generated with eosio-abigen. DO NOT EDIT Fri Oct 19 00:19:56 2018",
     "version": "eosio::abi/1.0",
     "structs": [
         {
@@ -85,6 +85,24 @@
                 {
                     "name": "invested",
                     "type": "asset"
+                }
+            ]
+        },
+        {
+            "name": "LastBuyer",
+            "base": "",
+            "fields": [
+                {
+                    "name": "id",
+                    "type": "uint64"
+                },
+                {
+                    "name": "account",
+                    "type": "name"
+                },
+                {
+                    "name": "purchasedAt",
+                    "type": "uint64"
                 }
             ]
         },
@@ -177,6 +195,13 @@
         {
             "name": "game",
             "type": "Game",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        },
+        {
+            "name": "lastbuyer",
+            "type": "LastBuyer",
             "index_type": "i64",
             "key_names": [],
             "key_types": []

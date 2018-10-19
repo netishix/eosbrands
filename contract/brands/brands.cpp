@@ -12,6 +12,17 @@ public:
   const uint64_t expirationPeriod = 43200; // 12 hours
   const float inflationFactor = 0.4;
   const account_name devAccount = N(estrectopolo);
+
+  struct [[eosio::table]] LastBuyer
+  {
+    uint64_t id;
+    account_name account;
+    uint64_t purchasedAt;
+    uint64_t primary_key() const { return id; }
+    EOSLIB_SERIALIZE(LastBuyer, (id)(account)(purchasedAt));
+  };
+  typedef multi_index<N(lastbuyer), LastBuyer> lastBuyerIndex;
+
   struct [[eosio::table]] Game
   {
     uint64_t id;
@@ -54,7 +65,7 @@ public:
     eosio_assert(!hasGameExpired(), "Game is over");
     require_auth(creator);
     eosio_assert((name.length() <= 30 && image.length() <= 300), "Brand name or image are to big.");
-    asset initialPrice = asset(1000, S(4, EOS)); //0.1 EOS
+    asset initialPrice = asset(5000, S(4, EOS)); //0.5 EOS
     debit(creator, initialPrice);
     brandIndex brands(_self, _self);
     brands.emplace(_self, [&](auto &brand) {
@@ -64,7 +75,7 @@ public:
       brand.owner = creator;
       brand.createdAt = now();
       brand.purchasedAt = now();
-      brand.expiresAt = now() + expirationPeriod;
+      brand.expiresAt = 0; // deprecated
       brand.name = name;
       brand.image = image;
       brand.purchasedTimes = 1;
@@ -91,14 +102,13 @@ public:
     auto brandItr = brands.find(id);
     eosio_assert(brandItr != brands.end(), "Brand does not exists");
     auto brand = brands.get(id);
-    eosio_assert(now() < brand.expiresAt, "Brand has expired.");
     // debit inflated brand price to buyer
     debit(buyer, brand.price);
     uint64_t inflation = brand.price.amount * inflationFactor;
     // deposit to owner old price + profit
-    deposit(brand.owner, asset((brand.price.amount - inflation) + (inflation * 0.7), S(4, EOS)));
+    deposit(brand.owner, asset((brand.price.amount - inflation) + (inflation * 0.6), S(4, EOS)));
     // update pot, invested, expiration time, and last buyer
-    uint64_t gameProfit = inflation * 0.3;
+    uint64_t gameProfit = inflation * 0.4;
     gameIndex games(_self, _self);
     auto gameItr = games.find(0);
     eosio_assert(gameItr != games.end(), "Game has not started");
@@ -108,17 +118,18 @@ public:
       game.expiresAt = now() + expirationPeriod;
       game.lastBuyer = buyer;
     });
+    // apply dividends
+    applyDividends(buyer, asset(gameProfit * 0.30, S(4, EOS)));
     // deposit profit to dev
-    deposit(devAccount, asset(gameProfit * 0.27, S(4, EOS)));
+    deposit(devAccount, asset(gameProfit * 0.20, S(4, EOS)));
     // deposit profit to creator
-    deposit(brand.creator, asset(gameProfit * 0.33, S(4, EOS)));
+    deposit(brand.creator, asset(gameProfit * 0.10, S(4, EOS)));
     //update brand information
     uint64_t newInflation = brand.price.amount * inflationFactor;
     brands.modify(brandItr, _self, [&](auto &brand) {
       brand.price.amount += newInflation;
       brand.owner = buyer;
       brand.purchasedAt = now();
-      brand.expiresAt = now() + expirationPeriod;
       brand.purchasedTimes += 1;
     });
   }
@@ -179,6 +190,38 @@ public:
     eosio_assert(gameItr != games.end(), "Could not check game expiration time. Game has not started");
     auto game = games.get(0);
     return now() > game.expiresAt;
+  }
+
+  void applyDividends(account_name buyer, asset total)
+  {
+    uint64_t totalBuyers = 0;
+    uint64_t maxBuyers = 10;
+    asset dividend = asset(total.amount / maxBuyers, S(4,EOS));
+    uint64_t oldestBuyerId;
+    uint64_t oldestBuyerTime = now();
+    lastBuyerIndex lastBuyers(_self, _self);
+    for (auto &lastBuyer : lastBuyers)
+    {
+      if (lastBuyer.purchasedAt < oldestBuyerTime)
+      {
+        oldestBuyerTime = lastBuyer.purchasedAt;
+        oldestBuyerId = lastBuyer.id;
+      }
+      deposit(lastBuyer.account, dividend);
+      totalBuyers++;
+    }
+
+    if (totalBuyers >= maxBuyers)
+    {
+      auto lastBuyerItr = lastBuyers.find(oldestBuyerId);
+      lastBuyers.erase(lastBuyerItr);
+    }
+
+    lastBuyers.emplace(_self, [&](auto &lastBuyer) {
+      lastBuyer.id = lastBuyers.available_primary_key();
+      lastBuyer.account = buyer;
+      lastBuyer.purchasedAt = now();
+    });
   }
 
   void onTransfer(account_name from, account_name to, eosio::asset quantity, std::string memo)

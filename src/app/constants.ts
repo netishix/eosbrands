@@ -1,4 +1,4 @@
-
+/*
 const Constants = {
   network: {
     blockchain: 'eos',
@@ -16,11 +16,11 @@ const Constants = {
         }
       }
     },
-  }
+  },
 };
+*/
 
 
-/*
 const Constants = {
   network: {
     blockchain: 'eos',
@@ -32,7 +32,6 @@ const Constants = {
         currency: {
       EOS: {
         code: 'eosio.token',
-        relation: 1,
         symbol: {
           name: 'EOS',
           precision: 4
@@ -41,6 +40,6 @@ const Constants = {
     },
   },
 };
-*/
+
 
 export { Constants };
