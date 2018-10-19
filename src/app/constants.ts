@@ -1,4 +1,4 @@
-/*
+
 const Constants = {
   network: {
     blockchain: 'eos',
@@ -18,9 +18,9 @@ const Constants = {
     },
   },
 };
-*/
 
 
+/*
 const Constants = {
   network: {
     blockchain: 'eos',
@@ -40,6 +40,7 @@ const Constants = {
     },
   },
 };
+*/
 
 
 export { Constants };
