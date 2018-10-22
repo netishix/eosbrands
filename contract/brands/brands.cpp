@@ -164,6 +164,14 @@ public:
       brandItr = brands.erase(brandItr);
     }
 
+    //delete all last buyers
+    lastBuyerIndex lastBuyers(_self, _self);
+    auto lastBuyerItr = lastBuyers.begin();
+    while (lastBuyerItr != lastBuyers.end())
+    {
+      lastBuyerItr = lastBuyers.erase(lastBuyerItr);
+    }
+
     // initialize game table
     gameIndex games(_self, _self);
     auto gameItr = games.find(0);
@@ -195,7 +203,7 @@ public:
   void applyDividends(account_name buyer, asset total)
   {
     uint64_t totalBuyers = 0;
-    uint64_t maxBuyers = 10;
+    uint64_t maxBuyers = 40;
     asset dividend = asset(total.amount / maxBuyers, S(4,EOS));
     uint64_t oldestBuyerId;
     uint64_t oldestBuyerTime = now();

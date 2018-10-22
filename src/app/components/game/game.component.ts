@@ -6,6 +6,7 @@ import Eos from 'eosjs';
 import { ModalCreateBrandComponent } from '../modal-create-brand/modal-create-brand.component';
 import { ModalLeaderboardComponent } from '../modal-leaderboard/modal-leaderboard.component';
 import { ModalLastBuyersComponent } from '../modal-last-buyers/modal-last-buyers.component';
+import { ModalLastRoundComponent } from '../modal-last-round/modal-last-round.component';
 
 
 @Component({
@@ -30,6 +31,12 @@ export class GameComponent implements OnInit {
 
   public openLastBuyers() {
     this._NgbModal.open(ModalLastBuyersComponent, {
+      size: 'lg'
+    });
+  }
+
+  public openLastRound() {
+    this._NgbModal.open(ModalLastRoundComponent, {
       size: 'lg'
     });
   }
