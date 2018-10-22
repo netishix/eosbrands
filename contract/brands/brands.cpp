@@ -86,6 +86,7 @@ public:
     eosio_assert(gameItr != games.end(), "Game has not started");
     games.modify(gameItr, _self, [&](auto &game) {
       game.invested += initialPrice;
+      game.lastBuyer = creator;
       game.expiresAt = now() + expirationPeriod;
     });
     deposit(devAccount, initialPrice);
