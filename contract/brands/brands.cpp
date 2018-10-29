@@ -65,7 +65,7 @@ public:
     eosio_assert(!hasGameExpired(), "Game is over");
     require_auth(creator);
     eosio_assert((name.length() <= 30 && image.length() <= 300), "Brand name or image are to big.");
-    asset initialPrice = asset(5000, S(4, EOS)); //0.5 EOS
+    asset initialPrice = asset(1000, S(4, EOS)); //0.1 EOS
     debit(creator, initialPrice);
     brandIndex brands(_self, _self);
     brands.emplace(_self, [&](auto &brand) {
@@ -120,11 +120,11 @@ public:
       game.lastBuyer = buyer;
     });
     // apply dividends
-    applyDividends(buyer, asset(gameProfit * 0.30, S(4, EOS)));
+    applyDividends(buyer, asset(gameProfit * 0.15, S(4, EOS)));
     // deposit profit to dev
-    deposit(devAccount, asset(gameProfit * 0.20, S(4, EOS)));
+    deposit(devAccount, asset(gameProfit * 0.25, S(4, EOS)));
     // deposit profit to creator
-    deposit(brand.creator, asset(gameProfit * 0.10, S(4, EOS)));
+    deposit(brand.creator, asset(gameProfit * 0.20, S(4, EOS)));
     //update brand information
     uint64_t newInflation = brand.price.amount * inflationFactor;
     brands.modify(brandItr, _self, [&](auto &brand) {
@@ -147,7 +147,7 @@ public:
         .send();
   }
 
-      [[eosio::action]] void startgame()
+      [[eosio::action]] void startgame(asset pot)
   {
     require_auth(_self);
     //delete all accounts
@@ -183,7 +183,7 @@ public:
     games.emplace(_self, [&](auto &game) {
       game.id = 0;
       game.expiresAt = now() + expirationPeriod;
-      game.pot = asset(0, S(4, EOS));
+      game.pot = pot;
       game.invested = asset(0, S(4, EOS));
     });
   }

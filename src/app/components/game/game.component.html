@@ -3,9 +3,9 @@
     <div class="col-12 px-0">
       <div class="card">
         <div class="card-body">
-          <div *ngIf="_AppService.gameData.game" class="row d-flex justify-content-center">
+          <div *ngIf="_AppService.gameData.game" class="row d-flex justify-content-center align-items-center">
             <div class="mr-4">
-              <span class="font-weight-bold">Round:</span>&nbsp;2
+              <span class="font-weight-bold">Round:</span>&nbsp;3
             </div>
             <div class="mr-4">
               <span class="font-weight-bold">Invested:</span>&nbsp;{{_AppService.gameData.game.invested}}
@@ -19,17 +19,17 @@
             <div class="mr-4">
               <span class="font-weight-bold">Last purchase:</span>&nbsp;{{_AppService.gameData.game.lastBuyer}}
             </div>
+            <a class="d-none d-lg-inline btn btn-info mr-4 mb-1" href="https://t.me/joinchat/Lm_lC01Pm9jZjU23JMONOQ" target="_blank">
+              <i class="fab fa-telegram mr-2"></i>Join our telegram
+            </a>
           </div>
           <hr>
           <div class="row d-flex justify-content-center">
-            <div class="col-12">
-
-            </div>
             <div class="col-sm-3 col-lg-2 mb-1">
-                <button class="btn btn-block btn-primary" (click)="openLastRound()">
-                  <i class="fas fa-trophy mr-2"></i>Last round winners
-                </button>
-              </div>
+              <button class="btn btn-block btn-primary" (click)="openLastRound()">
+                <i class="fas fa-trophy mr-2"></i>Last rounds winners
+              </button>
+            </div>
             <div class="col-sm-3 col-lg-2 mb-1">
               <button class="btn btn-block btn-primary" (click)="openLeaderboard()">
                 <i class="fas fa-list-ol mr-2"></i>Leaderboard

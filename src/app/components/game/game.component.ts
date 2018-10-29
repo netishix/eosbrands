@@ -62,7 +62,7 @@ export class GameComponent implements OnInit {
                 data: {
                   from: this._AppService.loggedUser.name,
                   to: Constants.network.code,
-                  quantity: '0.5000 EOS',
+                  quantity: '0.1000 EOS',
                   memo: 'EOS BRANDS - Create brand'
                 }
               },
